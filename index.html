@@ -276,22 +276,47 @@
         background: var(--cream);
         color: var(--ink);
       }
+      .nav-toggle {
+        display: none;
+      }
       .nav-right {
         display: flex;
         align-items: center;
         gap: 10px;
       }
       .nav-phone {
-        font-size: 13px;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.85);
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 5px;
-        transition: color 0.3s;
+        justify-content: center;
+        flex-shrink: 0;
+        gap: 8px;
+        min-height: 44px;
+        padding: 0 14px;
+        border: 1px solid var(--ink);
+        border-radius: var(--r-sm);
+        background: var(--ink);
+        color: var(--white);
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: background 0.2s, border-color 0.2s;
       }
-      .nav.scrolled .nav-phone {
-        color: var(--ink);
+      .nav-phone:hover {
+        background: #292724;
+        border-color: #292724;
+      }
+      .nav-phone:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 3px;
+      }
+      .nav-phone svg {
+        display: block;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+      .nav-call-label {
+        display: none;
       }
 
       /* ===================================================
@@ -1381,10 +1406,136 @@
           gap: 16px;
         }
       }
-      @media (max-width: 768px) {
+      @media (max-width: 1023px) {
+        .nav-inner {
+          gap: 12px;
+        }
+        .nav-toggle {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 44px;
+          min-height: 44px;
+          order: 3;
+          flex-shrink: 0;
+          border: 1px solid currentColor;
+          border-radius: var(--r-sm);
+          background: transparent;
+          color: var(--white);
+          font: 600 13px var(--font-b);
+          cursor: pointer;
+        }
+        .nav.scrolled .nav-toggle,
+        .nav.menu-open .nav-toggle {
+          color: var(--ink);
+        }
+        .nav-toggle:focus-visible,
+        .nav-links a:focus-visible {
+          outline: 2px solid var(--indigo);
+          outline-offset: 3px;
+        }
+        .nav.menu-open {
+          background: var(--cream);
+          border-bottom: 1px solid var(--border);
+        }
+        .nav.menu-open .logo-name {
+          color: var(--ink);
+        }
+        .nav.menu-open .logo-tag {
+          color: var(--stone);
+        }
         .nav-links {
           display: none;
+          position: absolute;
+          top: 68px;
+          left: 0;
+          right: 0;
+          padding: 12px 28px;
+          max-height: calc(100dvh - 68px);
+          overflow-y: auto;
+          background: var(--cream);
+          border-bottom: 1px solid var(--border);
         }
+        .nav.menu-open .nav-links {
+          display: block;
+        }
+        .nav .nav-links a {
+          display: flex;
+          align-items: center;
+          min-height: 44px;
+          color: var(--ink);
+        }
+        .nav .nav-links a:hover {
+          color: var(--ink);
+          background: var(--cream-dark);
+        }
+        .nav-right {
+          margin-left: auto;
+          gap: 8px;
+        }
+        .nav-toggle svg {
+          width: 20px;
+          height: 20px;
+        }
+        .nav-toggle .nav-close-icon,
+        .nav.menu-open .nav-menu-icon {
+          display: none;
+        }
+        .nav.menu-open .nav-close-icon {
+          display: block;
+        }
+        .nav-phone {
+          justify-content: center;
+          width: 44px;
+          padding: 0;
+          min-height: 44px;
+          gap: 0;
+          border-color: transparent;
+          background: transparent;
+          color: var(--white);
+        }
+        .nav-phone:hover {
+          background: rgba(255, 255, 255, 0.12);
+          border-color: transparent;
+        }
+        .nav-number {
+          display: none;
+        }
+        .nav-phone svg {
+          width: 20px;
+          height: 20px;
+        }
+        .nav.scrolled .nav-phone,
+        .nav.menu-open .nav-phone {
+          color: var(--ink);
+        }
+      }
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .nav-phone {
+          width: auto;
+          padding: 0 12px;
+          gap: 8px;
+          border-color: currentColor;
+        }
+        .nav-number {
+          display: inline;
+        }
+      }
+      @media (min-width: 1024px) and (max-width: 1200px) {
+        .nav-inner {
+          gap: 16px;
+        }
+        .nav-links a {
+          padding: 7px 9px;
+        }
+        .nav-number {
+          display: none;
+        }
+        .nav-call-label {
+          display: inline;
+        }
+      }
+      @media (max-width: 768px) {
         .hero-h1 {
           font-size: clamp(36px, 9vw, 58px);
         }
@@ -1482,7 +1633,21 @@
               <div class="logo-tag">Travels Kashmir</div>
             </div>
           </a>
-          <ul class="nav-links">
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav-links"
+            aria-label="Open navigation"
+          >
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg class="nav-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="m6 6 12 12M6 18 18 6" />
+            </svg>
+          </button>
+          <ul class="nav-links" id="nav-links">
             <li><a href="/about/">About</a></li>
             <li><a href="/kashmir-tour-packages/">Packages</a></li>
             <li><a href="/leh-ladakh-kashmir-tour-packages/">Ladakh</a></li>
@@ -1492,7 +1657,7 @@
             <li><a href="/blog/">Blog</a></li>
           </ul>
           <div class="nav-right">
-            <a href="tel:+919149562552" class="nav-phone">
+            <a href="tel:+919149562552" class="nav-phone" aria-label="Call +91-91495 62552">
               <svg
                 width="13"
                 height="13"
@@ -1505,15 +1670,9 @@
                   d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.72 11.77 19.79 19.79 0 011.65 3.14 2 2 0 013.64 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.6a16 16 0 006.29 6.29l.97-.97a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"
                 />
               </svg>
-              +91-91495 62552
+              <span class="nav-number">+91-91495 62552</span>
+              <span class="nav-call-label">Call Us</span>
             </a>
-            <a
-              href="https://wa.me/919149562552"
-              class="btn btn-wa"
-              style="padding: 10px 18px; font-size: 12px"
-              target="_blank"
-              >WhatsApp Us</a
-            >
           </div>
         </div>
       </div>
@@ -2842,6 +3001,31 @@
     </footer>
 
     <script>
+      const nav = document.getElementById("nav");
+      const navToggle = nav.querySelector(".nav-toggle");
+      function closeNav() {
+        nav.classList.remove("menu-open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.setAttribute("aria-label", "Open navigation");
+      }
+      navToggle.addEventListener("click", () => {
+        const open = nav.classList.toggle("menu-open");
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+      });
+      nav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeNav);
+      });
+      document.addEventListener("click", (event) => {
+        if (!nav.contains(event.target)) closeNav();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("menu-open")) {
+          closeNav();
+          navToggle.focus();
+        }
+      });
+      window.matchMedia("(max-width: 1023px)").addEventListener("change", closeNav);
       window.addEventListener("scroll", () => {
         document
           .getElementById("nav")
